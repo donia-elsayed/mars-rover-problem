@@ -16,7 +16,7 @@ Expected Output:
 [6,4] , 'N'
 
 
-#Solution 
+# Solution 
  function  command ---> to execute the possible commands that available to use it and which function will call in each command 
  function  move ----> for forward and backward commands 
  function  turn ----> for left and right rotate commands  
