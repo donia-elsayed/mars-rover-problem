@@ -1,0 +1,15 @@
+let marsRover0 = new MarsRover([1,2],'N',[2,2]);
+console.log(marsRover0.commands("LFLFLFLFF"));
+console.log(self.status);
+
+let marsRover1 = new MarsRover([3,3],'E',[5,1]);
+console.log(marsRover1.commands("FFRFFRFRRF"));
+console.log(self.status);
+
+let marsRover2 = new MarsRover([1,2],'N',[[2,3],[3,4]]);
+console.log(marsRover2.commands("FFRFFRFRRF"));
+console.log(self.status);
+
+let marsRover3 = new MarsRover([1,2],'N',[[1,8],[2,1],[3,3]]);
+console.log(marsRover3.commands("FLBRFFFRBBBLFF"));
+console.log(self.status);

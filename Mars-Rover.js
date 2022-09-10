@@ -1,9 +1,12 @@
-function MarsRover(location, direction) {
+function MarsRover(location, direction,obstacles) {
     self = this;
     this.location = (location === undefined) ? [0, 0] : location;
     this.direction = (direction === undefined) ? 'N' : direction;
+    this.obstacles = (obstacles === undefined) ? [] : obstacles;
     this.directions = ['N', 'E', 'S', 'W'];
     this.directionsIndex = { 'N': 0, 'E': 1, 'S': 2, 'W': 3 };
+    this.status = "NotObstacle";
+
     this.commands = function (commands) {
         if (commands === undefined) {
             return { x: self.location[0], y: self.location[1], dir: self.direction };
@@ -11,7 +14,7 @@ function MarsRover(location, direction) {
             for(let com = 0; com < commands.length; com++){
                 let command = commands[com];
                 if(command === 'F' || command === 'B'){
-                    move(command)
+                   if(!move(command)) return `${this.location} ${this.direction} is stopped`;
                 } else if(command === 'L' || command === 'R'){
                     turn(command);
                 }           
@@ -20,6 +23,7 @@ function MarsRover(location, direction) {
         }
     };
 
+    // for forward and backward command
     function move(command){
         let xIncrement = 0, yIncrement = 0;
         if( self.direction === 'N'){
@@ -36,12 +40,30 @@ function MarsRover(location, direction) {
             xIncrement *= -1;
             yIncrement *= -1;
         } 
-        let newLocation = [self.location[0] + xIncrement , self.location[1] + yIncrement];
-        self.location = newLocation;
 
+        let newLocation = [self.location[0] + xIncrement , self.location[1] + yIncrement];
+
+        if(isObstacle(newLocation)){
+            return false;
+        }
+        self.location = newLocation;
+        return true;
     }
+
+    // for the second part of the task 
+    function isObstacle(newLocation){
+        for(let index = 0; index < self.obstacles.length ; index++){
+            if(newLocation.toString() == self.obstacles[index].toString()){
+               self.status = "obstacle";
+               return true;
+            }
+        }
+        return false;
+    }
+
+    // for the left and right rotate 
     function turn(command){
-        let directionNum = self.directionsIndex[self.direction]
+        let directionNum = self.directionsIndex[self.direction];
         if(command === "L"){
             directionNum = (directionNum + 4 - 1 ) % 4;
         } else {
@@ -51,19 +73,6 @@ function MarsRover(location, direction) {
     }
 }
 
-let marsRover = new MarsRover([4,2],'E');
+let marsRover = new MarsRover([4,2],'E',[[1,4], [3,5], [7,4]]);
 console.log(marsRover.commands("FLFFFRFLB"));
-
-// let marsRover0 = new MarsRover([1,2],'N');
-// console.log(marsRover0.commands("LFLFLFLFF"));
-
-// let marsRover1 = new MarsRover([3,3],'E');
-// console.log(marsRover1.commands("FFRFFRFRRF"));
-
-// let marsRover2 = new MarsRover([1,2],'N');
-// console.log(marsRover2.commands("FFRFFRFRRF"));
-
-// let marsRover3 = new MarsRover([1,2],'N');
-// console.log(marsRover3.commands("FLBRFFFRBBBLFF"));
-
-
+console.log(self.status);
